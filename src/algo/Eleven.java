@@ -38,23 +38,24 @@ public class Eleven {
         
 //        System.out.println(String.format("%d %d", tiles, targetNum));
         
+        
         int lastInnerLayerSideNum = getLastInnerLayerSideNum(tiles);
         int lastInnerLayerNum = lastInnerLayerSideNum * lastInnerLayerSideNum;
-        if (isInInnerLayer(lastInnerLayerSideNum, targetNum)) {
+        if (lastInnerLayerNum + 1 >= targetNum) {
             printAnswer(caseNum, 1, 1);
             return;
         }
         
+        int currLayerNum = lastInnerLayerSideNum + 2;
+        
         int depth = tiles - lastInnerLayerNum - 1;
         
         int min = lastInnerLayerNum + 1;
-        
-        int currLayerNum = lastInnerLayerSideNum + 2;
-        int max = currLayerNum * currLayerNum + 1;
+        int max = currLayerNum * currLayerNum;
         int rightLength = targetNum - min;
-        int leftLength = max - targetNum;
+        int leftLength = max - targetNum + 1;
         
-        if (rightLength > depth && leftLength > depth) {
+        if ((rightLength > depth && leftLength > depth) || leftLength < 1) {
             printAnswer(caseNum, 0, 1);
             return;
         }
@@ -103,7 +104,7 @@ public class Eleven {
     }
     
     private int getLastInnerLayerSideNum(int tiles) {
-        int innerLayer = (int) Math.sqrt(tiles);
+        int innerLayer = (int) Math.sqrt(tiles - 1);
         if (innerLayer > 0 && innerLayer % 2 == 0) {
             innerLayer--;
         }
